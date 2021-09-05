@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils.translation import gettext as _
+
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -23,11 +26,25 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     """Custom user model that supports email"""
+
+    class Staff_Roles:
+        Employee = 'Employee'
+        Admin = 'Admin'
+
+        @classmethod
+        def choices(cls):
+            return(
+                (cls.Employee, _('Employee')),
+                (cls.Admin, _('Admin')),
+            )
+
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
+    id_number = models.PositiveIntegerField(null=False, unique=True, validators=[MinValueValidator(1000), MaxValueValidator(9999)])
+    role = models.CharField(max_length=20, null=False, choices=Staff_Roles.choices())
+
     objects = UserManager()
     USERNAME_FIELD = 'email'
-# Create your models here.

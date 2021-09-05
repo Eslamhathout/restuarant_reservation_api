@@ -1,0 +1,6 @@
+from datetime import time
+
+RESTAURANT_OPEN_TIME = time(13, 0)
+RESTAURANT_CLOSE_TIME = time(23, 0)
+MAX_AVAILABLE_DAYS = 3
+SLOT_DURATION =0
