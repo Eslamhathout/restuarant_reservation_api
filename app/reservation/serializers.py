@@ -27,15 +27,8 @@ class TableDetailSerializer(serializers.ModelSerializer):
 class ReservationsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
-        fields = ('start_time', 'end_time', 'table')
+        fields = ('date', 'start_time', 'end_time', 'table')
 
-# class CheckSerializer(serializers.Serializer):
-#     num = serializers.CharField(
-#         max_length=100,
-#     )
-
-# class availabilitySerializer(serializers.Serializer):
-#     numb = serializers.IntegerField(read_only=False)
 
 class AvailableSerializer(serializers.ModelSerializer):
     class Meta:

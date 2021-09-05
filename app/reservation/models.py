@@ -1,20 +1,23 @@
-from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
 from datetime import datetime, timedelta
+
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
 
 
 class Table(models.Model):
     class Meta:
         verbose_name = 'Table'
         verbose_name_plural = 'Tables'
-    
+
     table_number = models.IntegerField(unique=True, primary_key=True)
     table_capacity = models.IntegerField(default=1,
-        validators=[MaxValueValidator(12), MinValueValidator(1)]
-     )
+                                         validators=[MaxValueValidator(
+                                             12), MinValueValidator(1)]
+                                         )
 
     def __str__(self):
         return f'Table: {self.table_number}'
+
 
 class Reservation(models.Model):
     number_of_person = models.IntegerField()
