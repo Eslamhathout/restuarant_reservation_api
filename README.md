@@ -16,11 +16,19 @@
     For the purpose of testing I created two types of users: 
         employee: i.hathout94@gmail.com
 
+
+
 ![alt text](https://imgur.com/CGfSPnO.png)
+
+
 
         admin: i.a.hathout@gmail.com
 
+
+
 ![alt text](https://imgur.com/YMzU8BA.png)
+
+
 
     so verify with each screen whcih user is logged in 
     TODO: screen for each user email
@@ -32,19 +40,33 @@
         Users: As this is restricted from employees and only allowed for admins. I implemented a permission to control this view:
             * Employee
 
+
+
 ![alt text](https://imgur.com/e05FAnp.png "employee_table")
 
+
+
             * Admin
+
+
 
 ![alt text](https://imgur.com/9h12iXE.png "table_table")
 
 
+
+
                 Attepmts to delete a table with pending reservations:
+
+
 
 ![alt text](https://imgur.com/undefined.png)
 
 
-![alt text](https://imgur.com/1E1eOD2.png "admin_fail_to_delete_table_with_pending")
+
+
+![alt text](https://imgur.com/1E1eOD2.png)
+
+
 
 
     ####### Reservations
@@ -55,7 +77,13 @@
             API: /api/reservation/check/
             Users: As both employees and admins can check availability. here is the check for 4 places in sep 5th.
 
-![alt text](https://imgur.com/hemqW9y.png "availability_check")
+
+
+
+![alt text](https://imgur.com/hemqW9y.png)
+
+
+
 
             Sample_output: {
                             "message": "Available slot for the tables that fits the required number of people sorted by bestFit first.",
@@ -83,7 +111,11 @@
                 deny any capacity more than 12
 
 
-![alt text](https://imgur.com/undefined.png "denay_more_than_12")
+
+
+![alt text](https://imgur.com/undefined.png)
+
+
 
 
         * Reserve a time slot
@@ -91,18 +123,30 @@
             API: /api/reservation/reserve/
             Users: Both employees and admins can reserve a time-slot.
 
-![alt text](https://imgur.com/RkWadBm.png "reserve_valid")
+
+
+![alt text](https://imgur.com/RkWadBm.png)
+
+
 
             Outliters:
                 - Attepmt to reserve a table with more than it's capacity
 
-![alt text](https://imgur.com/undefined.png "outliter_reserve_a_table_wtih_bigger_than_its_capacity")
+
+
+
+![alt text](https://imgur.com/undefined.png)
+
+
+
 
                 - Attempt tp reserve a table in the past or far from 3 days max
 
 
 
-![alt text](https://imgur.com/2hLbtKQ.png "past_or_more_upcoming")
+
+![alt text](https://imgur.com/2hLbtKQ.png)
+
 
 
         * Get reservations for today
@@ -113,7 +157,9 @@
 
 
 
-![alt text](https://imgur.com/undefined.png "ordering_and_paggination")
+
+![alt text](https://imgur.com/undefined.png)
+
 
 
         * Get all reservations
@@ -123,18 +169,31 @@
 
 
 
-![alt text](https://imgur.com/5D9VUb0.png "reservation_list")
-            
+
+![alt text](https://imgur.com/5D9VUb0.png)
+
+
+
+
+
             Outliters: Employee can not get the list of reservations
 
 
-![alt text](https://imgur.com/GY2z0JY.png "reservation_list_for_emp")
+
+
+
+![alt text](https://imgur.com/GY2z0JY.png)
+
+
+
 
 
         * Delete a reservation
             Desc: You can use this API to delete a reservation by ID.
             API: /api/reservation/reservation-destory/19/
             Users: Both employees and admins can delete a reservation in the future.
+
+
 
 ![alt text](https://i.imgur.com/vvNYET3.png)
 
