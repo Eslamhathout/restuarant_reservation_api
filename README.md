@@ -15,9 +15,13 @@
     My system satifies the need for creating both employee nad admin staff.
     For the purpose of testing I created two types of users: 
         employee: i.hathout94@gmail.com
-        ![alt text](https://imgur.com/CDmXK0h.png "Employee")
+
+![alt text](https://imgur.com/CGfSPnO.png)
+
         admin: i.a.hathout@gmail.com
-        ![alt text](https://imgur.com/CDmXK0h.png "Admin")
+
+![alt text](https://imgur.com/YMzU8BA.png)
+
     so verify with each screen whcih user is logged in 
     TODO: screen for each user email
 
@@ -27,13 +31,20 @@
         API: /api/reservation/tables/
         Users: As this is restricted from employees and only allowed for admins. I implemented a permission to control this view:
             * Employee
-            ![alt text](https://imgur.com/CDmXK0h.png "employee_table")
+
+![alt text](https://imgur.com/e05FAnp.png "employee_table")
+
             * Admin
-                ![alt text](https://imgur.com/CDmXK0h.png "table_table")
-                
+
+![alt text](https://imgur.com/9h12iXE.png "table_table")
+
+
                 Attepmts to delete a table with pending reservations:
-                    ![alt text](https://imgur.com/CDmXK0h.png "admin_attempt_to_delete_table_with_pending")
-                    ![alt text](https://imgur.com/CDmXK0h.png "admin_fail_to_delete_table_with_pending")
+
+![alt text](https://imgur.com/undefined.png)
+
+
+![alt text](https://imgur.com/1E1eOD2.png "admin_fail_to_delete_table_with_pending")
 
 
     ####### Reservations
@@ -43,7 +54,9 @@
             Desc: You can use this API to get available time-slots based on any given date and number_of_persons.
             API: /api/reservation/check/
             Users: As both employees and admins can check availability. here is the check for 4 places in sep 5th.
-                ![alt text](https://imgur.com/CDmXK0h.png "availability_check")
+
+![alt text](https://imgur.com/hemqW9y.png "availability_check")
+
             Sample_output: {
                             "message": "Available slot for the tables that fits the required number of people sorted by bestFit first.",
                             "data": {
@@ -68,41 +81,60 @@
         
             Outliers:
                 deny any capacity more than 12
-                ![alt text](https://imgur.com/CDmXK0h.png "denay_more_than_12")
+
+
+![alt text](https://imgur.com/undefined.png "denay_more_than_12")
 
 
         * Reserve a time slot
             Desc: You can use this API to get reserve a time-slot.
             API: /api/reservation/reserve/
             Users: Both employees and admins can reserve a time-slot.
-                    ![alt text](https://imgur.com/CDmXK0h.png "reserve_valid")
+
+![alt text](https://imgur.com/RkWadBm.png "reserve_valid")
+
             Outliters:
                 - Attepmt to reserve a table with more than it's capacity
-                    ![alt text](https://imgur.com/CDmXK0h.png "outliter_reserve_a_table_wtih_bigger_than_its_capacity")
+
+![alt text](https://imgur.com/undefined.png "outliter_reserve_a_table_wtih_bigger_than_its_capacity")
 
                 - Attempt tp reserve a table in the past or far from 3 days max
-                    ![alt text](https://imgur.com/CDmXK0h.png "past_or_more_upcoming")
-        
+
+
+
+![alt text](https://imgur.com/2hLbtKQ.png "past_or_more_upcoming")
+
+
         * Get reservations for today
             Desc: You can use this API to get all reservation for current date.
             API: /api/reservation/todays-reservations/
             Users: Both employees and admins can get a list of current_day reservations.
             Enhancments: Add ordering and paggingation 
-                ![alt text](https://imgur.com/CDmXK0h.png "ordering_and_paggination")
+
+
+
+![alt text](https://imgur.com/undefined.png "ordering_and_paggination")
 
 
         * Get all reservations
             Desc: You can use this API to get all reservation.
             API: /api/reservation/reservations-list/
             Users: Only admins can get the list of reservations.
-                ![alt text](https://imgur.com/CDmXK0h.png "reservation_list")
+
+
+
+![alt text](https://imgur.com/5D9VUb0.png "reservation_list")
             
             Outliters: Employee can not get the list of reservations
-                ![alt text](https://imgur.com/CDmXK0h.png "reservation_list_for_emp")
+
+
+![alt text](https://imgur.com/GY2z0JY.png "reservation_list_for_emp")
+
 
         * Delete a reservation
             Desc: You can use this API to delete a reservation by ID.
             API: /api/reservation/reservation-destory/19/
             Users: Both employees and admins can delete a reservation in the future.
-                ![alt text](https://i.imgur.com/vvNYET3.png "delete_res")
+
+![alt text](https://i.imgur.com/vvNYET3.png)
 
