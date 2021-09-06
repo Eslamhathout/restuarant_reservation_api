@@ -30,6 +30,7 @@ class ReservationView(viewsets.GenericViewSet, generics.CreateAPIView):
 
     def _check_in_time_range(self, available_range, start_time, end_time):
         """Checks if a given (start and end )time locates in any of the availability ranges"""
+        import datetime
         available_range_start, available_range_end = available_range.replace(
             ' ', '').split('-')
         available_range_start_dt = datetime.time(int(available_range_start.split(":")[
@@ -84,7 +85,7 @@ class ReservationsDestoryView(viewsets.GenericViewSet, generics.DestroyAPIView):
     """Manages reservation delete by ID. """
     serializer_class = ReservationsSerializer
     queryset = Reservation.objects.filter(
-        date__gte=datetime.datetime.now().date())
+        date__gte=datetime.now().date())
 
 
 class StandardResultsSetPagination(LimitOffsetPagination):
@@ -96,7 +97,7 @@ class StandardResultsSetPagination(LimitOffsetPagination):
 class TodaysReservationsView(viewsets.GenericViewSet, generics.ListAPIView, mixins.ListModelMixin):
     """Returns todays reservations with pagintation and filtering. """
     serializer_class = ReservationsSerializer
-    queryset = Reservation.objects.filter(date=datetime.datetime.now().date())
+    queryset = Reservation.objects.filter(date=datetime.now().date())
     pagination_class = StandardResultsSetPagination
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['start_time']
@@ -136,16 +137,16 @@ class ReservationCheckView(viewsets.GenericViewSet, generics.CreateAPIView):
     def _get_available_slots(self, hours, appointments, duration=timedelta(minutes=15)):
         """ Gets the available solt possible given the fact that the minimum duration shloud be 15 min"""
         if hours[0].date() == date.today():
-            hours = (datetime.datetime.combine(date.today(),
-                     datetime.datetime.now().time()), hours[1])
+            hours = (datetime.combine(date.today(),
+                     datetime.now().time()), hours[1])
         available_slots = []
         slots = sorted([(hours[0], hours[0])] +
                        appointments + [(hours[1], hours[1])])
 
         if appointments == []:
             if hours[0].date() == date.today():
-                available_for_rest_of_the_day = datetime.datetime.combine(
-                    date.today(), datetime.datetime.now().time())
+                available_for_rest_of_the_day = datetime.combine(
+                    date.today(), datetime.now().time())
                 return ["{:%H:%M} - {:%H:%M}".format(available_for_rest_of_the_day, hours[1])]
             return ["{:%H:%M} - {:%H:%M}".format(hours[0], hours[1])]
         for start, end in ((slots[i][1], slots[i+1][0]) for i in range(len(slots)-1)):
@@ -157,21 +158,21 @@ class ReservationCheckView(viewsets.GenericViewSet, generics.CreateAPIView):
 
     def _get_table_reservations_for_specific_date(self, day, table_number):
         """ Gets a table reservations for a specific day"""
-        now = datetime.datetime.now().time()
+        now = datetime.now().time()
         appointments = []
 
-        day_opening_hours = (datetime.datetime.combine(day, constants.RESTAURANT_OPEN_TIME),
-                             datetime.datetime.combine(day, constants.RESTAURANT_CLOSE_TIME))
+        day_opening_hours = (datetime.combine(day, constants.RESTAURANT_OPEN_TIME),
+                             datetime.combine(day, constants.RESTAURANT_CLOSE_TIME))
         table_reservations = Reservation.objects.all().filter(
             table__table_number=table_number, date=day, start_time__gte=now)
         for reservation in table_reservations:
-            appointments.append((datetime.datetime.combine(
-                day, reservation.start_time), datetime.datetime.combine(day, reservation.end_time)))
+            appointments.append((datetime.combine(
+                day, reservation.start_time), datetime.combine(day, reservation.end_time)))
         return self._get_available_slots(hours=day_opening_hours, appointments=appointments)
 
     def create(self, request, *args, **kwargs):
         number_of_person = int(request.data['number_of_person'])
-        target_date = datetime.datetime.strptime(
+        target_date = datetime.strptime(
             request.data['date'], "%Y-%m-%d").date()
 
         result_json = {}
