@@ -104,5 +104,5 @@
             Desc: You can use this API to delete a reservation by ID.
             API: /api/reservation/reservation-destory/19/
             Users: Both employees and admins can delete a reservation in the future.
-                ![alt text](https://imgur.com/CDmXK0h.png "delete_res")
+                ![alt text](https://i.imgur.com/vvNYET3.png "delete_res")
 
