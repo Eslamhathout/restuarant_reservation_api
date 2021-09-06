@@ -5,19 +5,20 @@ from django.utils.translation import gettext as _
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None, **extra_fields):
+    def create_user(self, email, id_number, password=None, **extra_fields):
         """Creates and saves a new user"""
         if not email:
             raise ValueError('You have to provide an email address.')
         user = self.model(email=self.normalize_email(email), **extra_fields)
         user.set_password(password)
+        user.id_number=id_number
         user.save(using=self._db)
 
         return user
     
-    def create_superuser(self, email, password):
+    def create_superuser(self, email, password, id_number):
         """Creates and saves a new superuser"""
-        user = self.create_user(email, password)
+        user = self.create_user(email, id_number, password)
         user.is_staff = True
         user.is_superuser = True
         user.save(using=self._db)

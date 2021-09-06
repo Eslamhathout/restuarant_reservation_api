@@ -5,11 +5,12 @@ class ModelTests(TestCase):
     
     def test_create_user_with_email_successful(self):
         """Test creating a new user with an email"""
-        email = 'eslam@paymob.com'
+        email = 'eslam@rtob.com'
         password = 'testpass'
         user = get_user_model().objects.create_user(
             email=email,
-            password=password
+            password=password,
+            id_number=3636
         )
         self.assertEqual(user.email, email)
         self.assertTrue(user.check_password(password))
@@ -18,12 +19,13 @@ class ModelTests(TestCase):
         """Test the email for new user is normalized. default is domain is case senstive, so we
         need to change it to case in-sensitive"""
 
-        email = 'eslam@PAYMOB.COM'
+        email = 'eslam@rtOB.COM'
         password = 'testpass'
 
         user = get_user_model().objects.create_user(
             email=email,
-            password=password
+            password=password,
+            id_number=7777
         )
         self.assertEqual(user.email, email.lower())
 
@@ -34,33 +36,14 @@ class ModelTests(TestCase):
 
     def test_create_new_superuser(self):
         """Test creating a new superuser"""
-        email = 'eslamh@PAYMOB.COM'
+        email = 'eslamh@rtOB.COM'
         password = 'testpass'
 
         user = get_user_model().objects.create_superuser(
             email=email,
-            password=password
+            password=password,
+            id_number=5555
         )
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

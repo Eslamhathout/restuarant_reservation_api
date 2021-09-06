@@ -15,7 +15,7 @@ def create_user(**param):
 class PublicUserApiTests(TestCase):
     """Test the users API (public)"""
 
-    def setUp(self);
+    def setUp(self):
         self.client = APIClient()
     
     def test_create_valid_user_success(self):
@@ -24,7 +24,9 @@ class PublicUserApiTests(TestCase):
         payload = {
             'email': 'ehat@gmail.com',
             'password': 'testp',
-            'name': 'TestName'
+            'name': 'TestName',
+            'id_number' : 1111,
+            'role': 'Employee'
         }
 
         res = self.client.post(CREATE_USER_URL, payload)
