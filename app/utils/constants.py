@@ -9,3 +9,5 @@ TABLE_CAPACITY_ERROR="Please make sure you choose a table with capacity more tha
 RESERVATION_DATE_IN_THE_PAST="Date can't be in the past or far from 3 days."
 RESERVATION_FOR_MORE_THAN_12_OR_LESS_THAN_1="Table capacity should be between 1: 12"
 RESERVATION_CHECK='Available slot for the tables that fits the required number of people sorted by bestFit first.'
+TABLE_DELETE_WITH_PENDING_RESERVATIONS='Table can not be deleted as it has pending reservations.'
+TABLE_DELETE_SUCCESS='Table deleted successfully.'

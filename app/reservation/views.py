@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from utils import constants, helpers
+from utils import constants
 
 from .models import Reservation, Table
 from .serializers import (AvailableSerializer, ReservationCheckSerializer,
@@ -114,9 +114,9 @@ class TableView(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         table_obj = self.get_object()
         if Reservation.objects.filter(table=table_obj).exists():
-            return Response({'message': 'Table can not be deleted as it has pending reservations.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message': constants.TABLE_DELETE_WITH_PENDING_RESERVATIONS}, status=status.HTTP_400_BAD_REQUEST)
         table_obj.delete()
-        return Response({'message': 'Table deleted successfully.'})
+        return Response({'message': constants.TABLE_DELETE_SUCCESS})
 
 
 class ReservationCheckView(viewsets.GenericViewSet, generics.CreateAPIView):

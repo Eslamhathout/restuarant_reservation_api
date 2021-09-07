@@ -35,6 +35,21 @@ class PublicUserApiTests(TestCase):
         self.assertTrue(user.check_password(payload['password']))
 
 
+    def test_create_valid_admin_user_success(self):
+        """Test creating user with valid payload"""
+
+        payload = {
+            'email': 'tt@gmail.com',
+            'password': 'testp',
+            'name': 'TestName',
+            'id_number' : 4523,
+            'role': 'Admin'
+        }
+
+        res = self.client.post(CREATE_USER_URL, payload)
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        user = get_user_model().objects.get(**res.data)
+        self.assertTrue(user.check_password(payload['password']))
 
 
 

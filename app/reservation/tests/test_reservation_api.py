@@ -131,6 +131,20 @@ class ReservationApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
 
+    def test_check_reservation_in_the_past_invalid(self):
+        """Test create a reservation by admin user in the past invalid"""
+
+        self.client.force_authenticate(self.admin)
+
+        data = {
+            "number_of_person": 4,
+            "date": "2021-04-01",
+        }
+
+        res = self.client.post('/api/reservation/check/', data)
+        self.assertEqual(res.data['message'], constants.RESERVATION_DATE_IN_THE_PAST)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
     def test_create_a_reservation_for_more_than_12(self):
         """Test create a reservation by admin user for more than 12 invalid"""
 
@@ -150,6 +164,28 @@ class ReservationApiTests(TestCase):
         self.assertEqual(len(created_Reservation), 1)
         self.assertEqual(res.data['message'], constants.RESERVATION_FOR_MORE_THAN_12_OR_LESS_THAN_1)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+
+    def test_create_a_reservation_for_less_than_1(self):
+        """Test create a reservation by admin user for less than 1 person invalid"""
+
+        self.client.force_authenticate(self.admin)
+
+        data = {
+            "number_of_person": -1,
+            "reservation_name": "er",
+            "start_time": "17:00",
+            "end_time": "18:00",
+            "date": "2021-09-08",
+            "table": self.table_obj.table_number
+        }
+
+        res = self.client.post('/api/reservation/reserve/', data)
+        created_Reservation = Reservation.objects.filter(table=self.table_obj)
+        self.assertEqual(len(created_Reservation), 1)
+        self.assertEqual(res.data['message'], constants.RESERVATION_FOR_MORE_THAN_12_OR_LESS_THAN_1)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
 
     def test_reservation_check_success(self):
         """Test check a reservation by admin user"""
@@ -208,7 +244,14 @@ class TableApisTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data['results'], serializer.data)
 
-    def test_create_table_employee(self):
+    def test_retrieve_table_list_employee_invalid(self):
+        """Test retreving table listing for logged in user"""
+
+        self.client.force_authenticate(self.employee_user)
+        res = self.client.get(TABLE_URL)
+        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_create_table_employee_invalid(self):
         """Test create table restricted for employees"""
 
         self.client.force_authenticate(self.employee_user)
@@ -239,17 +282,23 @@ class TableApisTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
 
 
+    def test_delete_a_table_with_pending_reservations_invalid(self):
+        """Test delete table for admin users with pending reservations"""
+
+        self.client.force_authenticate(self.admin)
+        res = self.client.delete(f'/api/reservation/tables/{self.table_obj.table_number}/')
+        self.assertEqual(res.data['message'], constants.TABLE_DELETE_WITH_PENDING_RESERVATIONS)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+
     def test_delete_a_table_success(self):
         """Test delete table for admin users"""
-        data = {
-            "table_number": 6,
-            "table_capacity": 4
-        }
+
+        table_obj = mommy.make(Table)
         self.client.force_authenticate(self.admin)
-        numb_of_tables_before_delete = Table.objects.count()
-        res = self.client.delete(f'/api/reservation/tables/{self.table_obj.table_number}/')
-        numb_of_tables_after_delete = Table.objects.filter(table_number=self.table_obj.table_number)
-        self.assertNotEqual(numb_of_tables_before_delete, numb_of_tables_after_delete)
+        res = self.client.delete(f'/api/reservation/tables/{table_obj.table_number}/')
+
+        self.assertEqual(res.data['message'], constants.TABLE_DELETE_SUCCESS)
 
 
     def test_delete_a_table_employee_invalid(self):
