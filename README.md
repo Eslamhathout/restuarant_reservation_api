@@ -1,6 +1,6 @@
 # restuarant_reservation_api
 
-### How to start
+## How to start
     The system has two services one for postgres and the other one for the core container.
     You have to install docker and navigate to the reservation/docker-compose file, then run:
     $docker-compose build
@@ -8,10 +8,11 @@
 
     $docker-compose run app sh -c "python manage.py migrate" #For running the migrations
     $docker-compose run app sh -c "python manage.py shell" #For accessing the shell
+    $docker-compose run app sh -c "python manage.py test" #For running existing test cases.
 
+## Functional requirements. 
+##### Users & Authentication
 
-### Functional requirements. 
-    ####### Users & Authentication
     My system satifies the need for creating both employee nad admin staff.
     For the purpose of testing I created two types of users: 
         employee: i.hathout94@gmail.com
@@ -30,11 +31,7 @@
 
 
 
-    so verify with each screen whcih user is logged in 
-    TODO: screen for each user email
-
-
-    ####### Table Management
+##### Table Management
         Desc: Admins can use this API to get the current list of tables, add new table, or delete any existing table with no pending reservations.
         API: /api/reservation/tables/
         Users: As this is restricted from employees and only allowed for admins. I implemented a permission to control this view:
@@ -59,7 +56,7 @@
 
 
 
-![alt text](https://imgur.com/undefined.png)
+![alt text](https://imgur.com/VCkRjnY.png)
 
 
 
@@ -69,7 +66,7 @@
 
 
 
-    ####### Reservations
+##### Reservations
         NOTE: For simplicity I limited the availble slots to only 3 days, the minimum slot is 15 minutes, and opening_hours between (13, 23).
                 You can tweek these settings from utils.constants.py file.
         * Check available time slots
@@ -135,7 +132,7 @@
 
 
 
-![alt text](https://imgur.com/undefined.png)
+![alt text](https://imgur.com/i1CKzWu.png)
 
 
 
@@ -158,7 +155,7 @@
 
 
 
-![alt text](https://imgur.com/undefined.png)
+![alt text](https://imgur.com/84LnNt2.png)
 
 
 
