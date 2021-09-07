@@ -9,6 +9,7 @@ from reservation.models import Reservation, Table
 from reservation.serializers import (AvailableSerializer, ReservationCheckSerializer,
                           ReservationDetailSerializer, ReservationsSerializer,
                           TableDetailSerializer)
+from utils import constants
 
 RESERVATION_URL = reverse('reservation:reservation-list')
 TABLE_URL = reverse('reservation:table-list')
@@ -68,6 +69,101 @@ class ReservationApiTests(TestCase):
         self.assertEqual(res.data['results'], serializer.data)
 
 
+    def test_create_a_reservation_success(self):
+        """Test create a reservation by admin user"""
+
+        self.client.force_authenticate(self.admin)
+
+        data = {
+            "number_of_person": 4,
+            "reservation_name": "er",
+            "start_time": "17:00",
+            "end_time": "18:00",
+            "date": "2021-09-07",
+            "table": self.table_obj.table_number
+        }
+
+        res = self.client.post('/api/reservation/reserve/', data)
+        created_Reservation = Reservation.objects.filter(table=self.table_obj)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+
+    def test_create_two_reservations_same_time_invalid(self):
+        """Test create two reservations in the same time by admin user"""
+
+        self.client.force_authenticate(self.admin)
+
+        data = {
+            "number_of_person": 4,
+            "reservation_name": "er",
+            "start_time": "17:00",
+            "end_time": "18:00",
+            "date": "2021-09-07",
+            "table": self.table_obj.table_number
+        }
+
+        res = self.client.post('/api/reservation/reserve/', data)
+        res_2 = self.client.post('/api/reservation/reserve/', data)
+        created_Reservation = Reservation.objects.filter(table=self.table_obj)
+        self.assertEqual(len(created_Reservation), 1)
+        self.assertEqual(res_2.status_code, status.HTTP_200_OK)
+        self.assertEqual(res_2.data['message'], constants.TABLE_CAPACITY_ERROR)
+
+
+    def test_create_a_reservation_in_the_past_invalid(self):
+        """Test create a reservation by admin user in the past invalid"""
+
+        self.client.force_authenticate(self.admin)
+
+        data = {
+            "number_of_person": 4,
+            "reservation_name": "er",
+            "start_time": "17:00",
+            "end_time": "18:00",
+            "date": "2021-09-01",
+            "table": self.table_obj.table_number
+        }
+
+        res = self.client.post('/api/reservation/reserve/', data)
+        created_Reservation = Reservation.objects.filter(table=self.table_obj)
+        self.assertEqual(len(created_Reservation), 1)
+        self.assertEqual(res.data['message'], constants.RESERVATION_DATE_IN_THE_PAST)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+
+    def test_create_a_reservation_for_more_than_12(self):
+        """Test create a reservation by admin user for more than 12 invalid"""
+
+        self.client.force_authenticate(self.admin)
+
+        data = {
+            "number_of_person": 14,
+            "reservation_name": "er",
+            "start_time": "17:00",
+            "end_time": "18:00",
+            "date": "2021-09-08",
+            "table": self.table_obj.table_number
+        }
+
+        res = self.client.post('/api/reservation/reserve/', data)
+        created_Reservation = Reservation.objects.filter(table=self.table_obj)
+        self.assertEqual(len(created_Reservation), 1)
+        self.assertEqual(res.data['message'], constants.RESERVATION_FOR_MORE_THAN_12_OR_LESS_THAN_1)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+    def test_reservation_check_success(self):
+        """Test check a reservation by admin user"""
+
+        self.client.force_authenticate(self.admin)
+
+        data = {
+            "number_of_person": 10,
+            "date": "2021-09-08",
+        }
+
+        res = self.client.post('/api/reservation/check/', data)
+        self.assertEqual(res.data['message'], constants.RESERVATION_CHECK)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
 
 
 class TableApisTests(TestCase):
@@ -143,3 +239,28 @@ class TableApisTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
 
 
+    def test_delete_a_table_success(self):
+        """Test delete table for admin users"""
+        data = {
+            "table_number": 6,
+            "table_capacity": 4
+        }
+        self.client.force_authenticate(self.admin)
+        numb_of_tables_before_delete = Table.objects.count()
+        res = self.client.delete(f'/api/reservation/tables/{self.table_obj.table_number}/')
+        numb_of_tables_after_delete = Table.objects.filter(table_number=self.table_obj.table_number)
+        self.assertNotEqual(numb_of_tables_before_delete, numb_of_tables_after_delete)
+
+
+    def test_delete_a_table_employee_invalid(self):
+        """Test delete table restricted for empoyee users"""
+        data = {
+            "table_number": 6,
+            "table_capacity": 4
+        }
+        self.client.force_authenticate(self.employee_user)
+        numb_of_tables_before_delete = Table.objects.count()
+        res = self.client.delete(f'/api/reservation/tables/{self.table_obj.table_number}/')
+        numb_of_tables_after_delete = Table.objects.count()
+        self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(numb_of_tables_before_delete, numb_of_tables_after_delete)

@@ -55,7 +55,7 @@ class ReservationView(viewsets.GenericViewSet, generics.CreateAPIView):
         table_available_start_end = self._get_table_availability(
             request.data['table'], date_table_availability)
         if not table_available_start_end:
-            return Response({'message': "Please make sure you choose a table with capacity more than or equal your required number."})
+            return Response({'message': constants.TABLE_CAPACITY_ERROR})
 
         reservation_start_time = request.data['start_time']
         reservation_end_time = request.data['end_time']
@@ -181,10 +181,10 @@ class ReservationCheckView(viewsets.GenericViewSet, generics.CreateAPIView):
         result_json[request.data['date']] = []
 
         if self._is_valid_number_of_persons(number_of_person):
-            return Response({'message': "Table capacity should be between 1: 12", 'data': None})
+            return Response({'message': constants.RESERVATION_FOR_MORE_THAN_12_OR_LESS_THAN_1, 'data': None})
 
         if not self._is_valid_date(target_date):
-            return Response({'message': "Date can't be in the past or far from 3 days.", 'data': None})
+            return Response({'message': constants.RESERVATION_DATE_IN_THE_PAST, 'data': None})
 
         available_tables_with_capacity_gte_requested_qs = Table.objects.filter(
             table_capacity__gte=int(number_of_person)).order_by('table_capacity')
@@ -195,4 +195,4 @@ class ReservationCheckView(viewsets.GenericViewSet, generics.CreateAPIView):
             result_json[request.data['date']].append(
                 {'table_number': best_fit_table.table_number, 'table_capacity': best_fit_table.table_capacity, 'table_availability': available_time_slots_for_a_table_in_a_day})
         # print(json.dumps(result_json, indent=14, sort_keys=True))
-        return Response({'message': 'Available slot for the tables that fits the required number of people sorted by bestFit first.', 'data': result_json})
+        return Response({'message': constants.RESERVATION_CHECK, 'data': result_json})
