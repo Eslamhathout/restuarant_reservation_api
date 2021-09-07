@@ -1,4 +1,4 @@
-# restuarant_reservation_api
+# Restuarant_reservation_api
 
 ## How to start
     The system has two services one for postgres and the other one for the core container.
