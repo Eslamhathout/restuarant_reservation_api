@@ -86,6 +86,7 @@ class ReservationsDestoryView(viewsets.GenericViewSet, generics.DestroyAPIView):
     serializer_class = ReservationsSerializer
     queryset = Reservation.objects.filter(
         date__gte=datetime.now().date())
+    permission_classes = (IsAuthenticated)
 
 
 class StandardResultsSetPagination(LimitOffsetPagination):
@@ -97,6 +98,7 @@ class StandardResultsSetPagination(LimitOffsetPagination):
 class TodaysReservationsView(viewsets.GenericViewSet, generics.ListAPIView, mixins.ListModelMixin):
     """Returns todays reservations with pagintation and filtering. """
     serializer_class = ReservationsSerializer
+    permission_classes = (IsAuthenticated,)
     queryset = Reservation.objects.filter(date=datetime.now().date())
     pagination_class = StandardResultsSetPagination
     filter_backends = [filters.OrderingFilter]
