@@ -1,0 +1,559 @@
+{
+	"info": {
+		"_postman_id": "4c620a15-2e42-49bf-96be-12e463e033da",
+		"name": "reservation_api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Generate token",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "toor",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "i.a.hathout@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "i.a.hathout@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "toor",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/user/token/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"user",
+								"token",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reservation lists",
+			"item": [
+				{
+					"name": "Today's reservations",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "toor",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "i.a.hathout@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/reservation/todays-reservations/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"reservation",
+								"todays-reservations",
+								""
+							]
+						},
+						"description": "Gets all reservations"
+					},
+					"response": []
+				},
+				{
+					"name": "Reservation list",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "toor",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "i.a.hathout@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/reservation/reservations-list/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"reservation",
+								"reservations-list",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reservation Check",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "toor",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "i.a.hathout@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "number_of_person",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "date",
+									"value": "2021-09-06",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/reservation/check/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"reservation",
+								"check",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Make a reservation",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "toor",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "i.a.hathout@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"number_of_person\": 4,\n    \"reservation_name\": \"er\",\n    \"start_time\": \"17:00\",\n    \"end_time\": \"18:00\",\n    \"date\": \"2021-09-07\",\n    \"table\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/reservation/reserve/?number_of_person=4&date=2021-09-06&reservation_name=eslam_reservation&start_time=07:00&end_time=07:30&table=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"reservation",
+								"reserve",
+								""
+							],
+							"query": [
+								{
+									"key": "number_of_person",
+									"value": "4"
+								},
+								{
+									"key": "date",
+									"value": "2021-09-06"
+								},
+								{
+									"key": "reservation_name",
+									"value": "eslam_reservation"
+								},
+								{
+									"key": "start_time",
+									"value": "07:00"
+								},
+								{
+									"key": "end_time",
+									"value": "07:30"
+								},
+								{
+									"key": "table",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Make a reservation",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"number_of_person\": 4,\n    \"reservation_name\": \"er\",\n    \"start_time\": \"17:00\",\n    \"end_time\": \"18:00\",\n    \"date\": \"2021-09-07\",\n    \"table\": 2\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/reservation/reserve/?number_of_person=4&date=2021-09-06&reservation_name=eslam_reservation&start_time=07:00&end_time=07:30&table=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"reservation",
+										"reserve",
+										""
+									],
+									"query": [
+										{
+											"key": "number_of_person",
+											"value": "4"
+										},
+										{
+											"key": "date",
+											"value": "2021-09-06"
+										},
+										{
+											"key": "reservation_name",
+											"value": "eslam_reservation"
+										},
+										{
+											"key": "start_time",
+											"value": "07:00"
+										},
+										{
+											"key": "end_time",
+											"value": "07:30"
+										},
+										{
+											"key": "table",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 06 Sep 2021 17:28:03 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.7.11"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Content-Length",
+									"value": "130"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 21,\n    \"number_of_person\": 4,\n    \"reservation_name\": \"er\",\n    \"start_time\": \"17:00:00\",\n    \"end_time\": \"18:00:00\",\n    \"date\": \"2021-09-07\",\n    \"table\": 2\n}"
+						}
+					]
+				},
+				{
+					"name": "Error: Make a reservation in the past",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "toor",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "i.a.hathout@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"number_of_person\": 4,\n    \"reservation_name\": \"er\",\n    \"start_time\": 6,\n    \"end_time\": 7,\n    \"date\": \"2021-09-05\",\n    \"table\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/reservation/reserve/?number_of_person=4&date=2021-09-06&reservation_name=eslam_reservation&start_time=07:00&end_time=07:30&table=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"reservation",
+								"reserve",
+								""
+							],
+							"query": [
+								{
+									"key": "number_of_person",
+									"value": "4"
+								},
+								{
+									"key": "date",
+									"value": "2021-09-06"
+								},
+								{
+									"key": "reservation_name",
+									"value": "eslam_reservation"
+								},
+								{
+									"key": "start_time",
+									"value": "07:00"
+								},
+								{
+									"key": "end_time",
+									"value": "07:30"
+								},
+								{
+									"key": "table",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Error: Make a reservation in no available slot",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "toor",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "i.a.hathout@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"number_of_person\": 4,\n    \"reservation_name\": \"er\",\n    \"start_time\": \"06:00\",\n    \"end_time\": \"07:00\",\n    \"date\": \"2021-09-07\",\n    \"table\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/reservation/reserve/?number_of_person=4&date=2021-09-06&reservation_name=eslam_reservation&start_time=07:00&end_time=07:30&table=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"reservation",
+								"reserve",
+								""
+							],
+							"query": [
+								{
+									"key": "number_of_person",
+									"value": "4"
+								},
+								{
+									"key": "date",
+									"value": "2021-09-06"
+								},
+								{
+									"key": "reservation_name",
+									"value": "eslam_reservation"
+								},
+								{
+									"key": "start_time",
+									"value": "07:00"
+								},
+								{
+									"key": "end_time",
+									"value": "07:30"
+								},
+								{
+									"key": "table",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Table APIs",
+			"item": [
+				{
+					"name": "Get Table list",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "toor",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "i.a.hathout@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/reservation/tables/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"reservation",
+								"tables",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "admin_token",
+			"value": "2f0301841525e02754c31b9c5e2db3de03c2dba5"
+		}
+	]
+}
